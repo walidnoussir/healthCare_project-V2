@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>healthcare-v2</title>
+    <link href="/src/style.css" rel="stylesheet" />
+  </head>
+  <body class="bg-[#F0E7E7] h-screen dark:bg-slate-700">
+    <header
+      class="bg-white fixed w-full shadow-2xl shadow-black/25 py-5 px-3 flex justify-between items-center dark:bg-slate-800"
+    >
+      <div class="flex items-center gap-1.5">
+        <i class="fa-solid fa-user-group text-green-500 text-xl"></i>
+        <h1 class="text-green-500 font-bold text-lg lg:text-xl">HealthCare</h1>
+      </div>
+      <div class="flex items-center gap-3 lg:gap-10">
+        <button
+          id="display-demandes"
+          class="text-green-500 text-xs lg:text-sm flex items-center gap-2 lg:gap-4 cursor-pointer dark:text-green-400"
+        >
+          <span class="hidden sm:inline"> Afficher les demandes </span>
+          <span class="sm:hidden">Demandes</span>
+          <i class="fa-solid fa-arrow-right-long"></i>
+        </button>
+
+        <button
+          id="add-btn"
+          class="text-green-500 text-xs lg:text-sm flex items-center gap-2 lg:gap-4 cursor-pointer hide dark:text-green-400"
+        >
+          <span class="hidden sm:inline"> Ajouter les demandes </span>
+          <span class="sm:hidden">Ajouter</span>
+          <i class="fa-solid fa-arrow-right-long dark:text-green-400"></i>
+        </button>
+
+        <i
+          id="dark-btn"
+          class="fa-solid fa-moon text-xl lg:text-2xl text-green-700 cursor-pointer dark:text-green-400"
+        ></i>
+      </div>
+    </header>
+    <div
+      id="app"
+      class="h-full w-[full] flex flex-col justify-center items-center gap-2 py-2 px-3.5"
+    >
+      <p
+        id="toast"
+        class="text-green-700 font-medium bg-green-400/50 rounded-md py-2 px-16 w-full text-center dark:text-green-300 hide"
+      >
+        Demande ajouter avec succeé ✅
+      </p>
+      <form
+        id="form"
+        class="bg-white/55 rounded-lg w-full grid grid-cols-1 p-10 gap-3.5 lg:grid-cols-2 lg:justify-center lg:w-[70%] dark:bg-slate-600"
+      >
+        <input
+          class="input"
+          required
+          type="text"
+          id="lname"
+          placeholder="Entrer Le Nom"
+        />
+
+        <input
+          class="input"
+          required
+          type="text"
+          id="fname"
+          placeholder="Entrer Le Prénom"
+        />
+
+        <input
+          class="input"
+          required
+          type="number"
+          id="phone"
+          placeholder="Entrer Le Téléphone"
+        />
+
+        <input
+          class="input"
+          required
+          type="email"
+          id="email"
+          placeholder="Entrer Le Email"
+        />
+
+        <input
+          class="input"
+          required
+          type="text"
+          id="motif"
+          placeholder="Entrer Le Motif"
+        />
+
+        <input class="input" required type="date" id="date" />
+        <button
+          class="bg-green-500 text-white font-bold py-1.5 rounded-md cursor-pointer col-span-full"
+          type="submit"
+        >
+          Ajouter
+        </button>
+      </form>
+    </div>
+    <div
+      id="infos"
+      class="w-full pt-20 px-10 flex flex-col justify-center items-center hide"
+    >
+      <div
+        class="flex flex-col items-center justify-between w-full p-4 gap-4 lg:flex-row lg:gap-0"
+      >
+        <h1
+          id="total-items"
+          class="text-green-600 text-base lg:text-2xl font-medium text-center"
+        ></h1>
+        <div class="flex items-center w-full lg:w-auto">
+          <div class="input w-full lg:w-70 flex items-center">
+            <input
+              id="search"
+              type="text"
+              placeholder="Rechercher par prenom..."
+              class="border-none outline-none h-full w-full text-sm dark:placeholder:text-slate-200 dark:text-slate-50"
+            />
+            <i
+              id="search-btn"
+              class="fa-solid fa-magnifying-glass cursor-pointer text-green-600"
+            ></i>
+          </div>
+
+          <!-- <select name="" id="filter-motif" class="input">
+            <option value="">Filtrer par motif</option>
+            <option value="">b</option>
+            <option value="">c</option>
+          </select> -->
+        </div>
+      </div>
+
+      <table
+        id="table-view"
+        class="hidden lg:table w-full text-left border-2 border-collapse rounded sm:border-separate border-green-200"
+        cellspacing="0"
+      >
+        <thead class="text-center">
+          <tr>
+            <th
+              scope="col"
+              class="h-12 px-6 text-sm font-medium border-l first:border-l-0 stroke-slate-700 text-slate-700 bg-slate-100 dark:bg-slate-600 dark:text-slate-50"
+            >
+              Name
+            </th>
+            <th
+              scope="col"
+              class="h-12 px-6 text-sm font-medium border-l first:border-l-0 stroke-slate-700 text-slate-700 bg-slate-100 dark:bg-slate-600 dark:text-slate-50"
+            >
+              Prenom
+            </th>
+            <th
+              scope="col"
+              class="h-12 px-6 text-sm font-medium border-l first:border-l-0 stroke-slate-700 text-slate-700 bg-slate-100 dark:bg-slate-600 dark:text-slate-50"
+            >
+              Date
+            </th>
+            <th
+              scope="col"
+              class="h-12 px-6 text-sm font-medium border-l first:border-l-0 stroke-slate-700 text-slate-700 bg-slate-100 dark:bg-slate-600 dark:text-slate-50"
+            >
+              Telephone
+            </th>
+            <th
+              scope="col"
+              class="h-12 px-6 text-sm font-medium border-l first:border-l-0 stroke-slate-700 text-slate-700 bg-slate-100 dark:bg-slate-600 dark:text-slate-50"
+            >
+              Email
+            </th>
+            <th
+              scope="col"
+              class="h-12 px-6 text-sm font-medium border-l first:border-l-0 stroke-slate-700 text-slate-700 bg-slate-100 dark:bg-slate-600 dark:text-slate-50"
+            >
+              Motif
+            </th>
+            <th
+              scope="col"
+              class="h-12 px-6 text-sm font-medium border-l first:border-l-0 stroke-slate-700 text-slate-700 bg-slate-100 dark:bg-slate-600 dark:text-slate-50"
+            >
+              Action
+            </th>
+          </tr>
+        </thead>
+        <tbody id="tbody" class="text-center bg-green-100"></tbody>
+      </table>
+
+      <!-- Mobile Card View -->
+      <div id="cards-container" class="lg:hidden w-full px-4 space-y-4"></div>
+
+      <div
+        id="pagination"
+        class="flex justify-center items-center gap-15 py-5 hide"
+      >
+        <button id="prev">
+          <i class="fa-solid fa-caret-left text-green-600 text-4xl"></i>
+        </button>
+        <p id="page" class="text-4xl text-green-500 font-bold">1</p>
+        <button id="next">
+          <i class="fa-solid fa-caret-right text-green-600 text-4xl"></i>
+        </button>
+      </div>
+      <div id="message" class="text-center text-gray-600 text-lg"></div>
+    </div>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
